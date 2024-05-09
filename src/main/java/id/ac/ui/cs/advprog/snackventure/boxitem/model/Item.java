@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.snackventure.boxitem.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import lombok.Setter;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "item_id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name="item_name", updatable = false, nullable = false)

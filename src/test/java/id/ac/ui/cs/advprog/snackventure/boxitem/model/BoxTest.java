@@ -84,7 +84,7 @@ public class BoxTest {
 
     @Test
     void testSetBoxCountry() {
-        box.setImageUrl("Malaysia");
+        box.setCountry("Malaysia");
         assertNotNull(box);
         assertNotNull(box.getCountry());
         assertNotEquals(boxCountry, box.getCountry());
