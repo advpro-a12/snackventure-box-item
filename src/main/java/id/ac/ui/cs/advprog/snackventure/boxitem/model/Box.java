@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.snackventure.boxitem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +34,10 @@ public class Box {
 
     @Column(name="box_avg_rating", nullable = false)
     private float avgRating;
+
+    @OneToMany(mappedBy = "box")
+    @JsonIgnore
+    Set<BoxItem> boxItem;
 
     public Box() { }
 

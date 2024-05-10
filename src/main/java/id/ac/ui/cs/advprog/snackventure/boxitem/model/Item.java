@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.snackventure.boxitem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "items")
+@Table(name = "item")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +25,10 @@ public class Item {
 
     @Column(name="item_image_url", nullable = false)
     private String imageUrl;
+
+    @OneToMany(mappedBy = "item")
+    @JsonIgnore
+    Set<BoxItem> boxItem;
 
     public Item() { }
 
