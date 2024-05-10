@@ -2,6 +2,8 @@ package id.ac.ui.cs.advprog.snackventure.boxitem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import lombok.Getter;
@@ -37,7 +39,7 @@ public class Box {
 
     @OneToMany(mappedBy = "box")
     @JsonIgnore
-    Set<BoxItem> boxItem;
+    Set<BoxItem> boxItem = new HashSet<>();
 
     public Box() { }
 

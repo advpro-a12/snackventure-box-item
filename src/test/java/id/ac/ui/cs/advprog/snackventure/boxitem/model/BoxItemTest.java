@@ -2,6 +2,8 @@ package id.ac.ui.cs.advprog.snackventure.boxitem.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,6 +57,8 @@ public class BoxItemTest {
                 item_a,
                 item_a_quantity
         );
+        item_a.getBoxItem().add(boxItem);
+        box_a.getBoxItem().add(boxItem);
     }
 
     @Test
@@ -103,5 +107,34 @@ public class BoxItemTest {
         assertNotNull(boxItem);
         assertNotEquals(item_a_quantity, boxItem.getItemQuantity());
         assertEquals(100, boxItem.getItemQuantity());
+    }
+
+    @Test
+    void testSetBoxAndItemOneToManySetHashSet() {
+        item_a.setBoxItem(new HashSet<>());
+        item_b.setBoxItem(new HashSet<>());
+        box_a.setBoxItem(new HashSet<>());
+        box_b.setBoxItem(new HashSet<>());
+
+        assertNotNull(item_a.getBoxItem());
+        assertNotNull(item_b.getBoxItem());
+        assertNotNull(box_a.getBoxItem());
+        assertNotNull(box_b.getBoxItem());
+    }
+
+    @Test
+    void testSetBoxAndItemOneToManyHashSetIsEmpty() {
+        assertFalse(item_a.getBoxItem().isEmpty());
+        assertFalse(box_a.getBoxItem().isEmpty());
+        assertTrue(item_b.getBoxItem().isEmpty());
+        assertTrue(box_b.getBoxItem().isEmpty());
+    }
+
+    @Test
+    void testSetBoxAndItemOneToManyHashSetContainsBoxItem() {
+        assertEquals(1, item_a.getBoxItem().size());
+        assertEquals(1, box_a.getBoxItem().size());
+        assertTrue(item_a.getBoxItem().contains(boxItem));
+        assertTrue(box_a.getBoxItem().contains(boxItem));
     }
 }
