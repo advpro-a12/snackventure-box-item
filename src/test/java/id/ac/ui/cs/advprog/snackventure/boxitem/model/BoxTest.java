@@ -15,11 +15,10 @@ public class BoxTest {
     private final String boxImageUrl = "/Box.png";
     private final int boxPrice = 50_000;
     private final String boxCountry = "Indonesia";
-    private final float boxAvgRating = 0.0f;
 
     @BeforeEach
     public void setUp() {
-        box = new Box(boxId, boxName, boxDescription, boxImageUrl, boxPrice, boxCountry, boxAvgRating);
+        box = new Box(boxId, boxName, boxDescription, boxImageUrl, boxPrice, boxCountry);
     }
 
     @Test
@@ -39,7 +38,7 @@ public class BoxTest {
         assertEquals(boxImageUrl, box.getImageUrl());
         assertEquals(boxPrice, box.getPrice());
         assertEquals(boxCountry, box.getCountry());
-        assertEquals(boxAvgRating, box.getAvgRating());
+        assertEquals(0.0f, box.getAvgRating());
     }
 
     @Test
@@ -95,6 +94,6 @@ public class BoxTest {
         box.setAvgRating(2.5f);
         assertNotNull(box);
         assertNotNull(box.getAvgRating());
-        assertNotEquals(boxAvgRating, box.getAvgRating());
+        assertNotEquals(0.0f, box.getAvgRating());
     }
 }

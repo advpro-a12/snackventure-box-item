@@ -44,13 +44,13 @@ public class Box {
     public Box() { }
 
     public Box(UUID boxId, String boxName, String boxDescription, String boxImageUrl,
-               int boxPrice, String boxCountry, float boxAvgRating) {
+               int boxPrice, String boxCountry) {
         this.id = boxId;
         this.name = boxName;
         this.description = boxDescription;
         this.imageUrl = boxImageUrl;
         this.price = boxPrice;
         this.country = boxCountry;
-        this.avgRating = boxAvgRating;
+        this.avgRating = 0.0f;
     }
 }

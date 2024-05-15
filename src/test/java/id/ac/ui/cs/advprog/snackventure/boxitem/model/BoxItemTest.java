@@ -39,8 +39,7 @@ public class BoxItemTest {
                 "A limited edition box filled with syrups",
                 "/Box.png",
                 50_000,
-                "Indonesia",
-                0.0f
+                "Indonesia"
         );
         box_b = new Box(
                 UUID.randomUUID(),
@@ -48,8 +47,7 @@ public class BoxItemTest {
                 "Regular box filled with candies",
                 "/RegularBox.png",
                 25_000,
-                "Malaysia",
-                2.0f
+                "Malaysia"
         );
         boxItem = new BoxItem(
                 boxItemId,
