@@ -43,14 +43,38 @@ public class Box {
 
     public Box() { }
 
-    public Box(UUID boxId, String boxName, String boxDescription, String boxImageUrl,
+    public Box(String boxName, String boxDescription, String boxImageUrl,
                int boxPrice, String boxCountry) {
-        this.id = boxId;
+        this.id = UUID.randomUUID();
         this.name = boxName;
         this.description = boxDescription;
         this.imageUrl = boxImageUrl;
-        this.price = boxPrice;
+        this.price = validatePrice(boxPrice);
         this.country = boxCountry;
         this.avgRating = 0.0f;
+    }
+
+    public int validatePrice(int price){
+        if (price < 0){
+            throw new IllegalArgumentException("Invalid box Price, Price can't be negative: " + price);
+        }
+        return price;
+    }
+
+    public float validateRating(float rating){
+        if (rating < 0.0f){
+            throw new IllegalArgumentException("Invalid box Rating, Rating can't be less than 0.0: " + rating);
+        } else if (rating > 5.0f){
+            throw new IllegalArgumentException("Invalid box Rating, Rating can't be more than 5.0: " + rating);
+        }
+        return rating;
+    }
+
+    public void setPrice(int price){
+        this.price = validatePrice(price);
+    }
+
+    public void setAvgRating(float rating){
+        this.avgRating = validateRating(rating);
     }
 }
