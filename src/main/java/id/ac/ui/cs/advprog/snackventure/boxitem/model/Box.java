@@ -19,7 +19,7 @@ public class Box {
     @Column(name = "box_id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name="box_name", updatable = false, nullable = false)
+    @Column(name="box_name", nullable = false)
     private String name;
 
     @Column(name="box_description", nullable = false)
