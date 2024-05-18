@@ -9,8 +9,6 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoxItemTest {
-
-    private final UUID boxItemId = UUID.randomUUID();
     private BoxItem boxItem;
     private Box box_a;
     private Box box_b;
@@ -22,19 +20,16 @@ public class BoxItemTest {
     @BeforeEach
     public void setUp() {
         item_a = new Item(
-                UUID.randomUUID(),
                 "SugarSnap Chocolate Bar",
                 "A sweet and delicious chocolate bar",
                 "/Chocolate.png"
         );
         item_b = new Item(
-                UUID.randomUUID(),
                 "Banana Blaster",
                 "Banana flavored ice cream",
                 "/banana-blaster.png"
         );
         box_a = new Box(
-                UUID.randomUUID(),
                 "Special Box",
                 "A limited edition box filled with syrups",
                 "/Box.png",
@@ -42,7 +37,6 @@ public class BoxItemTest {
                 "Indonesia"
         );
         box_b = new Box(
-                UUID.randomUUID(),
                 "Regular Box",
                 "Regular box filled with candies",
                 "/RegularBox.png",
@@ -50,7 +44,6 @@ public class BoxItemTest {
                 "Malaysia"
         );
         boxItem = new BoxItem(
-                boxItemId,
                 box_a,
                 item_a,
                 item_a_quantity
@@ -67,7 +60,6 @@ public class BoxItemTest {
         assertNotNull(boxItem.getItem());
         assertNotNull(boxItem.getItemQuantity());
 
-        assertEquals(boxItemId, boxItem.getId());
         assertEquals(box_a.getId(), boxItem.getBox().getId());
         assertEquals(item_a.getId(), boxItem.getItem().getId());
         assertEquals(item_a_quantity, boxItem.getItemQuantity());
@@ -75,6 +67,7 @@ public class BoxItemTest {
 
     @Test
     void testSetBoxItemId() {
+        UUID boxItemId = boxItem.getId();
         boxItem.setId(UUID.randomUUID());
         assertNotNull(boxItem);
         assertNotNull(boxItem.getId());
@@ -101,10 +94,10 @@ public class BoxItemTest {
 
     @Test
     void testSetBoxItemItemQuantity() {
-        boxItem.setItemQuantity(100);
+        boxItem.setItemQuantity(item_b_quantity);
         assertNotNull(boxItem);
         assertNotEquals(item_a_quantity, boxItem.getItemQuantity());
-        assertEquals(100, boxItem.getItemQuantity());
+        assertEquals(item_b_quantity, boxItem.getItemQuantity());
     }
 
     @Test
@@ -134,5 +127,25 @@ public class BoxItemTest {
         assertEquals(1, box_a.getBoxItem().size());
         assertTrue(item_a.getBoxItem().contains(boxItem));
         assertTrue(box_a.getBoxItem().contains(boxItem));
+    }
+
+    @Test
+    void testItemQuantityValidation() {
+        int quantity = 30;
+        boxItem.setItemQuantity(quantity);
+            assertEquals(quantity, boxItem.validateQuantity(quantity));
+        assertEquals(quantity, boxItem.getItemQuantity());
+    }
+
+    @Test
+    void testInvalidItemQuantityValidation() {
+        int quantity = -100;
+        assertThrows(IllegalArgumentException.class, () -> {
+            boxItem.setItemQuantity(quantity);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            boxItem.validateQuantity(quantity);
+        });
+        assertEquals(item_a_quantity, boxItem.getItemQuantity());
     }
 }
