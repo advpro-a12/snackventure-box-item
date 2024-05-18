@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ItemTest {
     private Item item;
-    private final UUID itemId = UUID.randomUUID();
     private final String itemName = "SugarSnap Chocolate Bar";
     private final String itemDescription = "A sweet and delicious chocolate bar";
     private final String itemImageUrl = "/Chocolate.png";
 
     @BeforeEach
     public void setUp() {
-        item = new Item(itemId, itemName, itemDescription, itemImageUrl);
+        item = new Item(itemName, itemDescription, itemImageUrl);
     }
 
     @Test
@@ -25,7 +24,6 @@ public class ItemTest {
         assertNotNull(item.getName());
         assertNotNull(item.getDescription());
         assertNotNull(item.getImageUrl());
-        assertEquals(itemId, item.getId());
         assertEquals(itemName, item.getName());
         assertEquals(itemDescription, item.getDescription());
         assertEquals(itemImageUrl, item.getImageUrl());
@@ -33,6 +31,7 @@ public class ItemTest {
 
     @Test
     void testSetItemId() {
+        UUID itemId = item.getId();
         item.setId(UUID.randomUUID());
         assertNotNull(item);
         assertNotNull(item.getId());
