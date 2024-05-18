@@ -30,10 +30,21 @@ public class BoxItem {
 
     public BoxItem() { }
 
-    public BoxItem(UUID id, Box box, Item item, int itemQuantity) {
-        this.id = id;
+    public BoxItem(Box box, Item item, int itemQuantity) {
+        this.id = UUID.randomUUID();
         this.box = box;
         this.item = item;
-        this.itemQuantity = itemQuantity;
+        this.itemQuantity = validateQuantity(itemQuantity);
+    }
+
+    public int validateQuantity(int quantity){
+        if (quantity < 0){
+            throw new IllegalArgumentException("Invalid item Quantity, Quantity can't be negative: " + quantity);
+        }
+        return quantity;
+    }
+
+    public void setItemQuantity(int quantity){
+        this.itemQuantity = validateQuantity(quantity);
     }
 }
