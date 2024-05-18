@@ -145,12 +145,12 @@ public class BoxItemServiceImplementationTest {
 
     @Test
     public void testListItemsInBox(){
-        Item Item1 = new Item();
-        Item Item2 = new Item();
+        BoxItem boxItem1 = new BoxItem();
+        BoxItem boxItem2 = new BoxItem();
         UUID box_id = UUID.randomUUID();
-        when(boxItemRepository.findAllItemsInBox(box_id)).thenReturn(Arrays.asList(Item1, Item2));
+        when(boxItemRepository.findAllItemsInBox(box_id)).thenReturn(Arrays.asList(boxItem1, boxItem2));
 
-        List<Item> items = boxItemService.listItemsInBox(box_id.toString());
+        List<BoxItem> items = boxItemService.listItemsInBox(box_id.toString());
 
         verify(boxItemRepository, times(1)).findAllItemsInBox(box_id);
         assertEquals(2, items.size());

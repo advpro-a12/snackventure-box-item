@@ -41,8 +41,8 @@ public class BoxItemServiceImplementation implements BoxItemService{
     }
 
     @Override
-    public List<Item> listItemsInBox(String box_id){
-        UUID id = UUID.fromString(box_id);
+    public List<BoxItem> listItemsInBox(String box_item_id){
+        UUID id = UUID.fromString(box_item_id);
         return boxItemRepository.findAllItemsInBox(id);
     }
 
