@@ -34,8 +34,8 @@ public class Item {
 
     public Item() { }
 
-    public Item(UUID itemId, String itemName, String itemDescription, String itemImageUrl) {
-        this.id = itemId;
+    public Item(String itemName, String itemDescription, String itemImageUrl) {
+        this.id = UUID.randomUUID();
         this.name = itemName;
         this.description = itemDescription;
         this.imageUrl = itemImageUrl;
