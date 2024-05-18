@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BoxTest {
 
     private Box box;
-    private final UUID boxId = UUID.randomUUID();
     private final String boxName = "Special Box";
     private final String boxDescription = "A limited edition box filled with syrups";
     private final String boxImageUrl = "/Box.png";
@@ -18,7 +17,7 @@ public class BoxTest {
 
     @BeforeEach
     public void setUp() {
-        box = new Box(boxId, boxName, boxDescription, boxImageUrl, boxPrice, boxCountry);
+        box = new Box(boxName, boxDescription, boxImageUrl, boxPrice, boxCountry);
     }
 
     @Test
@@ -32,7 +31,6 @@ public class BoxTest {
         assertNotNull(box.getCountry());
         assertNotNull(box.getAvgRating());
 
-        assertEquals(boxId, box.getId());
         assertEquals(boxName, box.getName());
         assertEquals(boxDescription, box.getDescription());
         assertEquals(boxImageUrl, box.getImageUrl());
@@ -43,6 +41,7 @@ public class BoxTest {
 
     @Test
     void testSetBoxId() {
+        UUID boxId = box.getId();
         box.setId(UUID.randomUUID());
         assertNotNull(box);
         assertNotNull(box.getId());
@@ -95,5 +94,57 @@ public class BoxTest {
         assertNotNull(box);
         assertNotNull(box.getAvgRating());
         assertNotEquals(0.0f, box.getAvgRating());
+    }
+
+    @Test
+    void testPriceValidation() {
+        int price = 5_000;
+        box.setPrice(price);
+        assertEquals(price, box.validatePrice(price));
+        assertEquals(price, box.getPrice());
+    }
+
+    @Test
+    void testInvalidPriceValidation() {
+        int price = -10_000;
+        assertThrows(IllegalArgumentException.class, () -> {
+            box.setPrice(price);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            box.validatePrice(price);
+        });
+        assertEquals(boxPrice, box.getPrice());
+    }
+
+    @Test
+    void testRatingValidation() {
+        float rating = 1.0f;
+        box.setAvgRating(rating);
+        assertEquals(rating, box.validateRating(rating));
+        assertEquals(rating, box.getAvgRating());
+    }
+
+    @Test
+    void testInvalidRatingValidationTooHigh() {
+        float rating = 6.0f;
+        assertThrows(IllegalArgumentException.class, () -> {
+            box.setAvgRating(rating);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            box.validateRating(rating);
+        });
+        assertEquals(0.0f, box.getAvgRating());
+    }
+
+    @Test
+    void testInvalidRatingValidationTooLow() {
+        float rating = -1.0f;
+        assertThrows(IllegalArgumentException.class, () -> {
+            box.setAvgRating(rating);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            box.validateRating(rating);
+        });
+        assertEquals(0.0f, box.getAvgRating());
     }
 }
