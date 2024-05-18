@@ -35,7 +35,7 @@ public class BoxServiceImplementationTest {
 
     @Test
     public void testCreateBox(){
-        String name = "SugarSnap Chocolate Bar";;
+        String name = "SugarSnap Chocolate Bar";
         String description = "A sweet and delicious chocolate bar";
         String image_url = "/Chocolate.png";
         int price = 50_000;
@@ -83,12 +83,12 @@ public class BoxServiceImplementationTest {
         UUID invalidId = UUID.randomUUID();
         when(boxRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            this.boxService.getBoxById(invalidId.toString());
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> this.boxService.getBoxById(invalidId.toString())
+        );
 
         verify(boxRepository, times(1)).findById(invalidId);
-        assertEquals("Invalid box Id: " + invalidId.toString(), exception.getMessage());
+        assertEquals("Invalid box Id: " + invalidId, exception.getMessage());
     }
 
     @Test

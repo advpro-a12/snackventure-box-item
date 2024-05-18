@@ -35,7 +35,7 @@ public class ItemServiceImplementationTest {
 
     @Test
     public void testCreateItem(){
-        String name = "SugarSnap Chocolate Bar";;
+        String name = "SugarSnap Chocolate Bar";
         String description = "A sweet and delicious chocolate bar";
         String image_url = "/Chocolate.png";
         Item item = new Item(name, description, image_url);
@@ -81,12 +81,12 @@ public class ItemServiceImplementationTest {
         UUID invalidId = UUID.randomUUID();
         when(itemRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            this.itemService.getItemById(invalidId.toString());
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> this.itemService.getItemById(invalidId.toString())
+        );
 
         verify(itemRepository, times(1)).findById(invalidId);
-        assertEquals("Invalid item Id: " + invalidId.toString(), exception.getMessage());
+        assertEquals("Invalid item Id: " + invalidId, exception.getMessage());
     }
 
     @Test
