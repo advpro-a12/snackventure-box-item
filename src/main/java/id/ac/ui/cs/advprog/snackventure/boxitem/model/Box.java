@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +43,11 @@ public class Box {
     @JsonIgnore
     Set<BoxItem> boxItem = new HashSet<>();
 
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @JsonIgnore
+    private int ratingCount;
+
     public Box() { }
 
     public Box(String boxName, String boxDescription, String boxImageUrl,
@@ -52,6 +59,7 @@ public class Box {
         this.price = validatePrice(boxPrice);
         this.country = boxCountry;
         this.avgRating = 0.0f;
+        this.ratingCount = 0;
     }
 
     public int validatePrice(int price){
@@ -75,6 +83,7 @@ public class Box {
     }
 
     public void setAvgRating(float rating){
-        this.avgRating = validateRating(rating);
+        this.avgRating = (this.avgRating * this.ratingCount + validateRating(rating)) / (this.ratingCount + 1);
+        this.ratingCount += 1;
     }
 }
