@@ -6,7 +6,9 @@ import id.ac.ui.cs.advprog.snackventure.boxitem.service.BoxItemService;
 import id.ac.ui.cs.advprog.snackventure.boxitem.service.BoxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @EnableAsync
+@CrossOrigin
 @RequestMapping("/subscription-box")
 public class BoxController {
 
@@ -26,6 +29,8 @@ public class BoxController {
     @Autowired
     private BoxItemService boxItemService;
 
+    @Async
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create")
     public CompletableFuture<ResponseEntity<Box>> createBox(@RequestBody Map<String, Object> requestBody) {
         String boxName = requestBody.get("name").toString();
@@ -38,18 +43,24 @@ public class BoxController {
         return CompletableFuture.completedFuture(ResponseEntity.ok(box));
     }
 
+    @Async
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER')")
     @GetMapping("/")
     public CompletableFuture<ResponseEntity<List<Box>>> listBox() {
         List<Box> box = boxService.getAllBox();
         return CompletableFuture.completedFuture(ResponseEntity.ok(box));
     }
 
+    @Async
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER')")
     @GetMapping("/{id}")
     public CompletableFuture<ResponseEntity<Box>> getBox(@PathVariable String id) {
         Box box = boxService.getBoxById(id);
         return CompletableFuture.completedFuture(ResponseEntity.ok(box));
     }
 
+    @Async
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping ("/{id}/update")
     public CompletableFuture<ResponseEntity<Box>> updateBox(@PathVariable String id, @RequestBody Map<String, Object> requestBody) {
         String boxName = requestBody.get("name").toString();
@@ -62,6 +73,8 @@ public class BoxController {
         return CompletableFuture.completedFuture(ResponseEntity.ok(box));
     }
 
+    @Async
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @PutMapping("/{id}/rate")
     public CompletableFuture<ResponseEntity<Box>> setBoxRating(@PathVariable String id, @RequestBody Map<String, Object> requestBody) {
         float boxRating = Float.parseFloat(requestBody.get("rating").toString());
@@ -69,12 +82,16 @@ public class BoxController {
         return CompletableFuture.completedFuture(ResponseEntity.ok(box));
     }
 
+    @Async
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}/delete")
     public CompletableFuture<ResponseEntity<Box>> deleteBox(@PathVariable String id) {
         boxService.deleteBox(id);
         return CompletableFuture.completedFuture(ResponseEntity.ok().build());
     }
 
+    @Async
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER')")
     @GetMapping("/{id}/items")
     public CompletableFuture<ResponseEntity<List<Map<String, Object>>>> listItemsInBox(@PathVariable String id) {
         List<BoxItem> items = boxItemService.listItemsInBox(id);
@@ -92,6 +109,8 @@ public class BoxController {
         return CompletableFuture.completedFuture(ResponseEntity.ok(response));
     }
 
+    @Async
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/{id}/add-item")
     public CompletableFuture<ResponseEntity<BoxItem>> addItemToBox(@PathVariable String id, @RequestBody Map<String, Object> requestBody) {
         String item = requestBody.get("item").toString();
@@ -102,6 +121,8 @@ public class BoxController {
         return CompletableFuture.completedFuture(ResponseEntity.ok(boxItem));
     }
 
+    @Async
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{box_id}/edit-item/{box_item_id}")
     public CompletableFuture<ResponseEntity<BoxItem>> editItemInBox(@PathVariable String box_id, @PathVariable String box_item_id, @RequestBody Map<String, Object> requestBody) {
         String item = requestBody.get("item").toString();
@@ -111,6 +132,8 @@ public class BoxController {
         return CompletableFuture.completedFuture(ResponseEntity.ok(boxItem));
     }
 
+    @Async
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{box_id}/remove-item/{box_item_id}")
     public CompletableFuture<ResponseEntity<BoxItem>> removeItemInBox(@PathVariable String box_id, @PathVariable String box_item_id) {
         boxItemService.removeItemInBox(box_item_id);
