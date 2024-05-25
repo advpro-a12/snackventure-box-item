@@ -34,6 +34,7 @@ public class ItemController {
     }
 
     @Async
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER')")
     @GetMapping("/")
     public CompletableFuture<ResponseEntity<List<Item>>> listItem() {
         List<Item> items = itemService.getAllItems();
@@ -41,6 +42,7 @@ public class ItemController {
     }
 
     @Async
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER')")
     @GetMapping("/{id}")
     public CompletableFuture<ResponseEntity<Item>> getItem(@PathVariable String id) {
         Item item = itemService.getItemById(id);

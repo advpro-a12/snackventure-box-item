@@ -43,6 +43,7 @@ public class BoxController {
     }
 
     @Async
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER')")
     @GetMapping("/")
     public CompletableFuture<ResponseEntity<List<Box>>> listBox() {
         List<Box> box = boxService.getAllBox();
@@ -50,6 +51,7 @@ public class BoxController {
     }
 
     @Async
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER')")
     @GetMapping("/{id}")
     public CompletableFuture<ResponseEntity<Box>> getBox(@PathVariable String id) {
         Box box = boxService.getBoxById(id);
@@ -71,6 +73,7 @@ public class BoxController {
     }
 
     @Async
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @PutMapping("/{id}/rate")
     public CompletableFuture<ResponseEntity<Box>> setBoxRating(@PathVariable String id, @RequestBody Map<String, Object> requestBody) {
         float boxRating = Float.parseFloat(requestBody.get("rating").toString());
@@ -87,6 +90,7 @@ public class BoxController {
     }
 
     @Async
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER')")
     @GetMapping("/{id}/items")
     public CompletableFuture<ResponseEntity<List<Map<String, Object>>>> listItemsInBox(@PathVariable String id) {
         List<BoxItem> items = boxItemService.listItemsInBox(id);
