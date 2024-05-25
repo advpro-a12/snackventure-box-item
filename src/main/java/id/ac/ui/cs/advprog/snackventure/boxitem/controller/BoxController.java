@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @EnableAsync
+@CrossOrigin
 @RequestMapping("/subscription-box")
 public class BoxController {
 

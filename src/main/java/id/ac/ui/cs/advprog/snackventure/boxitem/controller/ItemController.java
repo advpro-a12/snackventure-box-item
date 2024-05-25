@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @EnableAsync
+@CrossOrigin
 @RequestMapping("/item")
 public class ItemController {
 
